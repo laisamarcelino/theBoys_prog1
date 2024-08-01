@@ -1,18 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "conjunto.h"
-#include "eventos.h"
-#include "funcoes.h"
-
-#define T_INICIO 0
-#define T_FIM_DO_MUNDO 3 /* Mudar p 525600*/
-#define T_INICIO 0
-#define T_FIM_DO_MUNDO 5 /* em minutos -> 525600*/
-#define N_TAMANHO_MUNDO 5 /*20000*/
-#define N_HABILIDADES 10
-#define N_HEROIS (N_HABILIDADES * 5)
-#define N_BASES (N_HEROIS / 6)
-#define N_MISSOES (T_FIM_DO_MUNDO / 100)
-#define DADO_VAZIO -1
+#include "mundo.h"
+#include "lef.h"
+#include "fila.h"
 
 /* Ciclo basico de funcionamento de um simulador 
 1. retirar o primeiro evento de uma lista de eventos
@@ -26,18 +17,18 @@ int main (){
     srand (0); 
     
     /*declarar variaveis*/
-    int relogio = 0;
+    /*int relogio = 0;*/
 
     /* iniciar as entidades e atributos do mundo */
-    struct heroi *h;
-    struct coordenadas *local;
-    struct base *b;
-
+    struct heroi h;
+   
     /* criar os eventos iniciais */
     
     
 
-    /* coloque seu codigo aqui */
+    /* testes */
+    h = cria_heroi(h,0);
+    printf( "%d", h.habilidades);
 
     return 0;
 }

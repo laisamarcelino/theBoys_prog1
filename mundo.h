@@ -5,12 +5,12 @@
 */
 
 #ifndef _ev_t_H
-#define _ev_t_H /*descobrir pra que isso aq*/
+#define _ev_t_H 
 
 /* Representa cada herói */
 struct heroi {
     int id_heroi;
-    int habilidades; //deve ser vetor, como? usar conjuntos
+    struct conjunto *habilidades; /*usar conjuntos*/
     int paciencia;
     int velocidade;
     int experiencia;
@@ -27,41 +27,41 @@ struct coordenadas {
 struct base {
     int id_base;
     int lotacao; 
-    int presentes; //é um conjunto
-    int espera; //deve ser vetor, como? é uma fila
-    struct coordenadas *local;
+    int *presentes; /*é um conjunto*/
+    int *espera; /*é uma fila*/
+    struct coordenadas local;
 };
 
 /* Representa cada missão */
 struct missao {
     int id_missao;
-    int habilidades; //deve ser vetor, como? conjuntos
-    struct coordenadas *local;
+    int *habilidades; 
+    struct coordenadas local;
 };
 
 /* Mundo é deﬁnido pelas entidades acima e algumas informações gerais */
 struct mundo {
     int n_herois; 
-    int vetor_herois; //deve ser vetor, como?
+    int *vetor_herois; 
     int n_bases;
-    int vetor_bases; //deve ser vetor, como]
+    int *vetor_bases; 
     int n_missoes;
     int n_habilidades;
-    struct coordenadas *tamanho_mundo;
+    struct coordenadas tamanho_mundo;
     int relogio;
 };
 
 /* Retorna um número aleatorio entre max e min */
 int aleat (int min, int max);
 
-/* Inicializa cada um dos herois */
-void *cria_heroi (int n_herois, struct heroi *h);
+/* Inicializa um herói */
+struct heroi cria_heroi (struct heroi h, int id);
 
 /* Inicializa cada base */
-void *cria_base(int n_bases, struct base *b);
+void cria_base(struct base b, int id, int lot, int pre, int esp, int x, int y);
 
 /* Inicializa cada missão */
-void cria_missao(int n_missoes, struct missao *m);
+void cria_missao(int n_missoes, struct missao m);
 
 /* Representa um herói H chegando em uma base B no instante T. Ao chegar, 
 o herói analisa o tamanho da fila e decide se espera para entrar ou desiste */

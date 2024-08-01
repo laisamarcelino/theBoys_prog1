@@ -1,6 +1,10 @@
 #include "eventos.h"
 #include <stdlib.h>
 
+int aleat (int min, int max){ 
+	return min + rand() % (max+1 - min);
+}
+
 void *cria_heroi (struct heroi *h, int id, int hab, int pac, int vel, int exp, int id_base){
     h->id_heroi = id;
     h->habilidades = hab;
@@ -19,3 +23,8 @@ void *cria_base (struct base *b, int id, int lot, int pre, int esp, int x, int y
     b->local->y = y;
 
 };
+
+/*Adicionar missoes na lef
+vetor de missoes
+adicionar o evento fim do mundo
+*/

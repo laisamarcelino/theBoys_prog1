@@ -1,5 +1,6 @@
 /*
- * Arquivo cabeçalho que define entidades e eventos
+ * Arquivo cabeçalho que define entidades, eventos
+   e funções auxiliares
  *
 */
 
@@ -49,6 +50,15 @@ struct mundo {
     struct coordenadas *tamanho_mundo;
     int relogio;
 };
+
+/* Inicializa cada um dos herois */
+void *cria_heroi (int n_herois, struct heroi *h);
+
+/* Inicializa cada base */
+void *cria_base(int n_bases, struct base *b);
+
+/* Inicializa cada missão */
+void cria_missao(int n_missoes, struct missao *m);
 
 /* Representa um herói H chegando em uma base B no instante T. Ao chegar, 
 o herói analisa o tamanho da fila e decide se espera para entrar ou desiste */

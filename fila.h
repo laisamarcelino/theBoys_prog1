@@ -6,6 +6,8 @@
  *    Luis Carlos Erpen de Bona
  *
  * Versao 3.0.0 de 03/10/2023
+ * 
+ * Politica FIFO - Insere no final, remove no inicio
 */
 
 #ifndef _fila_t_H
@@ -49,5 +51,8 @@ int fila_tamanho (struct fila *fila);
 
 /* Retorna 1 se fila vazia, 0 em caso contrario. */ 
 int fila_vazia (struct fila *fila);
+
+/* Imprime os elementos da fila */
+void imprime_fila (struct fila *fila);
 
 #endif

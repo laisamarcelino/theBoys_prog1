@@ -92,31 +92,31 @@ void cria_mundo (struct mundo *mundo, struct lef_t *l);
 
 /* Representa um herói H chegando em uma base B no instante T. Ao chegar, 
 o herói analisa o tamanho da fila e decide se espera para entrar ou desiste */
-void chega (int t, struct mundo m, int h, int b, struct lef_t *l);
+void chega (int t, struct mundo *mundo, int h, int b, struct lef_t *l);
 
 /* O herói H entra na fila de espera da base B. Assim que H entrar na fila, 
 o porteiro da base B deve ser avisado para verificar a fila */
-void espera (int t, struct mundo m, int h, int b, struct lef_t *l);
+void espera (int t, struct mundo *mundo, int h, int b, struct lef_t *l);
 
-/* O herói H desiste de entrar na base B, escolhe uma base aleatória D e viaja para D*/
-void desiste (int t, struct mundo m, int h, int b, struct lef_t *l);
+/* O herói H desiste de entrar na base B, escolhe uma base aleatória D e viaja*/
+void desiste (int t, int h, int b, struct lef_t *l);
 
 /* O porteiro da base B trata a fila de espera */
-void avisa (int t, struct base b, struct lef_t *l);
+void avisa (int t, struct mundo *mundo, int h, int b, struct lef_t *l);
 
 /* O herói H entra na base B. Ao entrar, o herói decide 
 quanto tempo vai ficar e agenda sua saída da base */
-void entra (int t, struct heroi h, struct base b, struct lef_t *l);
+void entra (int t, struct mundo *mundo, int h, int b, struct lef_t *l);
 
 /* herói H sai da base B. Ao sair, escolhe uma base de destino para viajar; 
 o porteiro de B é avisado, pois uma vaga foi liberada: */
-void sai (int t, struct heroi h, struct base b, struct lef_t *l);
+void sai (int t, struct mundo *mundo, int h, int b, struct lef_t *l);
 
 /* O herói H se desloca para uma base D */
-void viaja (int t, struct heroi h, struct base d, struct lef_t *l);
+void viaja (int t, struct mundo *mundo, int h, int d, struct lef_t *l);
 
 /* Dispara uma missão m no instante t */
-void missao (int t, struct missao m, struct lef_t *l);
+void missao (int t, struct mundo *mundo, struct missao m, struct lef_t *l);
 
 /* Encerra a simulação */
 void fim (int t);

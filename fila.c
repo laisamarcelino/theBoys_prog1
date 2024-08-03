@@ -1,5 +1,6 @@
 #include "fila.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 struct fila *fila_cria (){
     struct fila *fila;
@@ -77,4 +78,23 @@ int fila_vazia (struct fila *fila){
     if (!fila->tamanho)
 		return 1;
 	return 0;
+}
+
+void imprime_fila (struct fila *fila){
+	struct nodo *aux;
+
+	if (fila_vazia(fila)){
+		printf("[ ]\n");
+		return;
+	}
+	
+	aux = fila->ini;
+	printf("[ ");
+
+	while (aux != NULL){
+		printf("%d ", aux->chave);
+		aux = aux->prox;
+	}
+
+	printf("] \n");
 }

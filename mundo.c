@@ -110,110 +110,151 @@ void cria_mundo (struct mundo *mundo, struct lef_t *l){
     insere_lef(l, ev_fim);
 }
 
-void chega (int t, struct mundo m, int h, int b, struct lef_t *l){
+void chega (int t, struct mundo *mundo, int h, int b, struct lef_t *l){
     bool decide_esperar;
     struct evento_t *evento;
 
     /* Atualiza base de h */
-    m.herois[h].base.id_base = b;
+    mundo->herois[h].base.id_base = b;
 
     /* Verifica vagas na base e se a fila de espera está vazia */
-    if (cardinalidade_cjt(m.bases[b].presentes) < m.bases[b].lotacao 
-            && fila_vazia(m.bases[b].espera)){
+    if (cardinalidade_cjt(mundo->bases[b].presentes) < mundo->bases[b].lotacao 
+            && fila_vazia(mundo->bases[b].espera)){
         decide_esperar = true;
     }
     /* Verifica paciencia do heroi */
     else {
-        decide_esperar = m.herois[h].paciencia > 
-            (10*fila_tamanho(m.bases[b].espera)) ? true : false;
+        decide_esperar = mundo->herois[h].paciencia > 
+            (10*fila_tamanho(mundo->bases[b].espera)) ? true : false;
     }
 
     if (decide_esperar){
         printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) ESPERA \n", 
-			t, h, b, m.bases[b].presentes->card, m.bases[b].lotacao);
+			t, h, b, mundo->bases[b].presentes->card, mundo->bases[b].lotacao);
         evento = cria_evento(t, ESPERA, h, b);
         insere_lef(l, evento);
     }
     else {
         printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) DESISTE \n", 
-			t, h, b, m.bases[b].presentes->card, m.bases[b].lotacao);
+			t, h, b, mundo->bases[b].presentes->card, mundo->bases[b].lotacao);
         evento = cria_evento(t, DESISTE, h, b);
         insere_lef(l, evento);
     }
 }
-/* Precisa testar  */
-void espera (int t, struct mundo m, int h, int b, struct lef_t *l){
+
+void espera (int t, struct mundo *mundo, int h, int b, struct lef_t *l){
     struct evento_t *avisa;
     
     /* Adiciona h ao fim da fila de espera */
-    enqueue(m.bases[b].espera, m.herois[h].id_heroi);
+    enqueue(mundo->bases[b].espera, h);
     avisa = cria_evento(t, AVISA, b, DADO_NULO);
     insere_lef(l, avisa);
 
 	printf("%6d: ESPERA HEROI %2d BASE %d (%2d) \n",
-		t, h, b, fila_tamanho(m.bases[b].espera) - 1);
+		t, h, b, fila_tamanho(mundo->bases[b].espera) - 1);
 }
 
-void desiste (int t, struct mundo m, int h, int b, struct lef_t *l){
+void desiste (int t, int h, int b, struct lef_t *l){
     struct evento_t *viaja;
     int d;
 
     /* Escolhe um base de destino aleatória */
     d = aleat(0, N_BASES);
-    m.bases[b].id_base = d;
-    m.herois[h].base.id_base = b;
 
     viaja = cria_evento(t, VIAJA, h, d); 
     insere_lef(l, viaja);
+
+    printf("%6d: DESISTE HEROI %2d BASE %d \n", t, h, b);
+
 }
 
-void avisa (int t, struct base b, struct lef_t *l){
+void avisa (int t, struct mundo *mundo, int h, int b, struct lef_t *l){
     struct evento_t *entra;
-    int id_heroi;
+    int h_retirado;
 
-    while (cardinalidade_cjt(b.presentes) < b.lotacao && !fila_vazia(b.espera)){
+
+	printf("%6d: AVISA  PORTEIRO BASE %d (%2d/%2d) FILA ",
+		t, b, mundo->bases[b].presentes->card, mundo->bases[b].lotacao);
+    imprime_fila(mundo->bases[b].espera);
+
+    while (cardinalidade_cjt(mundo->bases[b].presentes) < mundo->bases[b].lotacao 
+            && !fila_vazia(mundo->bases[b].espera)){
+        
         /* Retira primeiro heroi da fila de b*/
-        dequeue(b.espera, &id_heroi);
+        dequeue(mundo->bases[b].espera, &h_retirado);
+        insere_cjt(mundo->bases[b].presentes, h);
 
-        insere_cjt(b.presentes, id_heroi);
-
-        entra = cria_evento(t, ENTRA, id_heroi, b.id_base);
+        entra = cria_evento(t, ENTRA, h, b);
         insere_lef(l, entra);
+
+        printf("%6d: AVISA  PORTEIRO BASE %d ADMITE %2d \n", 
+			t, b, h);
     }
 }
 
-void entra (int t, struct heroi h, struct base b, struct lef_t *l){
+void entra (int t, struct mundo *mundo, int h, int b, struct lef_t *l){
     struct evento_t *sai;
 
     /* Calcula tempo de permanencia da base*/
-    int TPB = 15 + h.paciencia * aleat(1,20);
+    int TPB = 15 + mundo->herois[h].paciencia * aleat(1,20);
     
-    sai = cria_evento(t + TPB, SAI, h.id_heroi, b.id_base);
+    sai = cria_evento(t + TPB, SAI, h, b);
     insere_lef(l, sai); 
+
+	printf("%6d: ENTRA  HEROI %2d BASE %d (%2d/%2d) SAI %d \n", 
+		t, h, b, mundo->bases[b].presentes->card, mundo->bases[b].lotacao, t + TPB);
 }
 
-void sai (int t, struct heroi h, struct base b, struct lef_t *l){
+void sai (int t, struct mundo *mundo, int h, int b, struct lef_t *l){
     struct evento_t *viaja, *avisa;
     int d;
 
     /* Retira h do conjunto de herois presentes em b*/
-    retira_cjt(b.presentes, h.id_heroi);
+    retira_cjt(mundo->bases[b].presentes, h);
     d = aleat(0, N_BASES);
 
-    viaja = cria_evento(t, VIAJA, h.id_heroi, d);
+    viaja = cria_evento(t, VIAJA, h, d);
     insere_lef(l, viaja);
-    avisa = cria_evento(t, AVISA, b.id_base, DADO_NULO);
+    avisa = cria_evento(t, AVISA, b, DADO_NULO);
     insere_lef(l, avisa);
+
+	printf("%6d: SAI    HEROI %2d BASE %d (%2d/%2d) \n", 
+		t, h, b, mundo->bases[b].presentes->card, mundo->bases[b].lotacao);
 }
 
-void viaja (int t, struct heroi h, struct base d, struct lef_t *l){
+void viaja (int t, struct mundo *mundo, int h, int d, struct lef_t *l){
     struct evento_t *chega;
-    int dis, duracao;
+    struct coordenadas base_atual;
+    int dis, duracao, id_base_atual;
     
     /* Calcula duração da viagem */
-    dis = distancia(h.base.local, d.local);
-    duracao = dis / h.velocidade;
+    base_atual = mundo->herois[h].base.local;
+    dis = distancia(base_atual, mundo->bases[d].local);
+    duracao = dis / mundo->herois[h].velocidade;
 
-    chega = cria_evento(t + duracao, CHEGA, h.id_heroi, d.id_base);
+    chega = cria_evento(t + duracao, CHEGA, h, d);
     insere_lef(l, chega);
+
+    id_base_atual = mundo->herois[h].base.id_base;
+    printf("%6d: VIAJA  HEROI %2d BASE %d BASE %d DIST %d VEL %d CHEGA %d \n", 
+		t, h, id_base_atual, d, dis, mundo->herois[h].velocidade, t + duracao);
+}
+
+void missao (int t, struct mundo *mundo, struct missao m, struct lef_t *l){
+    int menor_dis, i, dis, j;
+    struct conjunto *cjt_unido;
+
+    /* Calcula distancia de cada base ao local da missao m */
+    menor_dis = distancia(m.local, mundo->bases[0].local);
+    for (i = 1; i <= N_BASES; i++){
+        dis = distancia(m.local, mundo->bases[i].local);
+        
+        /* Une conjuntos */
+        
+
+        if (dis < menor_dis){
+            menor_dis = dis;
+        }
+    }
+
 }

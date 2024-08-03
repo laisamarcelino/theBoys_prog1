@@ -7,6 +7,8 @@
 #include "lef.h"
 #include "fila.h"
 
+/* Funções de teste */
+
 void testa_cria_mundo() {
     struct mundo m;
     int i;
@@ -37,7 +39,6 @@ void testa_cria_mundo() {
     destroi_lef(lista_eventos); 
 }
 
-
 void testa_chega() {
     struct mundo m;
     struct lef_t *lista_eventos = cria_lef();
@@ -49,9 +50,119 @@ void testa_chega() {
     int id_base = m.herois[id_heroi].base.id_base;
 
     printf("\nTestando evento CHEGA para o herói %d na base %d no tempo %d\n", id_heroi, id_base, tempo_evento);
-    chega(tempo_evento, m, id_heroi, id_base, lista_eventos);
+    chega(tempo_evento, &m, id_heroi, id_base, lista_eventos);
 
     destroi_lef(lista_eventos); 
+}
+
+void testa_espera() {
+    struct mundo m;
+    struct lef_t *lista_eventos = cria_lef();
+    srand(0); 
+
+    cria_mundo(&m, lista_eventos);
+    int tempo_evento = 200;
+    int id_heroi = 0;
+    int id_base = m.herois[id_heroi].base.id_base;
+
+    chega(tempo_evento, &m, id_heroi, id_base, lista_eventos);
+
+    espera(tempo_evento + 10, &m, id_heroi, id_base, lista_eventos);
+
+    destroi_lef(lista_eventos);
+}
+
+void testa_desiste() {
+    struct mundo m;
+    struct lef_t *lista_eventos = cria_lef();
+    srand(0);
+
+    cria_mundo(&m, lista_eventos);
+    int tempo_evento = 300;
+    int id_heroi = 0;
+    int id_base = m.herois[id_heroi].base.id_base;
+
+    chega(tempo_evento, &m, id_heroi, id_base, lista_eventos);
+
+    espera(tempo_evento + 10, &m, id_heroi, id_base, lista_eventos);
+
+    desiste(tempo_evento + 20, id_heroi, id_base, lista_eventos);
+
+    destroi_lef(lista_eventos);
+}
+
+void testa_avisa() {
+    struct mundo m;
+    struct lef_t *lista_eventos = cria_lef();
+    srand(0);
+
+    cria_mundo(&m, lista_eventos);
+    int tempo_evento = 400;
+    int id_heroi = 0;
+    int id_base = m.herois[id_heroi].base.id_base;
+
+    chega(tempo_evento, &m, id_heroi, id_base, lista_eventos);
+    espera(tempo_evento + 10, &m, id_heroi, id_base, lista_eventos);
+
+    printf("\nTestando evento AVISA para a base %d no tempo %d\n", id_base, tempo_evento + 20);
+    avisa(tempo_evento + 20, &m, id_heroi, id_base, lista_eventos);
+
+    destroi_lef(lista_eventos);
+}
+
+void testa_entra() {
+    struct mundo m;
+    struct lef_t *lista_eventos = cria_lef();
+    srand(0);
+
+    cria_mundo(&m, lista_eventos);
+    int tempo_evento = 500;
+    int id_heroi = 0;
+    int id_base = m.herois[id_heroi].base.id_base;
+
+    chega(tempo_evento, &m, id_heroi, id_base, lista_eventos);
+    espera(tempo_evento + 10, &m, id_heroi, id_base, lista_eventos);
+    
+    printf("\nTestando evento ENTRA para o herói %d na base %d no tempo %d\n", id_heroi, id_base, tempo_evento + 30);
+    entra(tempo_evento + 30, &m, id_heroi, id_base, lista_eventos);
+
+    destroi_lef(lista_eventos);
+}
+
+void testa_viaja() {
+    struct mundo m;
+    struct lef_t *lista_eventos = cria_lef();
+    srand(0);
+
+    cria_mundo(&m, lista_eventos);
+    int tempo_evento = 600;
+    int id_heroi = 0;
+    int id_base_atual = m.herois[id_heroi].base.id_base;
+
+    printf("\nTestando evento VIAJA para o herói %d da base %d no tempo %d\n", id_heroi, id_base_atual, tempo_evento);
+    viaja(tempo_evento, &m, id_heroi, aleat(0, m.n_bases - 1), lista_eventos);
+
+    destroi_lef(lista_eventos);
+}
+
+void testa_sai() {
+    struct mundo m;
+    struct lef_t *lista_eventos = cria_lef();
+    srand(0);
+
+    cria_mundo(&m, lista_eventos);
+    int tempo_evento = 700;
+    int id_heroi = 0;
+    int id_base = m.herois[id_heroi].base.id_base;
+
+    chega(tempo_evento, &m, id_heroi, id_base, lista_eventos);
+    espera(tempo_evento + 10, &m, id_heroi, id_base, lista_eventos);
+    entra(tempo_evento + 20, &m, id_heroi, id_base, lista_eventos);
+
+    printf("\nTestando evento SAI para o herói %d da base %d no tempo %d\n", id_heroi, id_base, tempo_evento + 30);
+    sai(tempo_evento + 30, &m, id_heroi, id_base, lista_eventos);
+
+    destroi_lef(lista_eventos);
 }
 
 int main() {
@@ -60,6 +171,24 @@ int main() {
 
     printf("\nTestando a função chega:\n");
     testa_chega();
+
+    printf("\nTestando a função espera:\n");
+    testa_espera();
+
+    printf("\nTestando a função desiste:\n");
+    testa_desiste();
+
+    printf("\nTestando a função avisa:\n");
+    testa_avisa();
+
+    printf("\nTestando a função entra:\n");
+    testa_entra();
+
+    printf("\nTestando a função viaja:\n");
+    testa_viaja();
+
+    printf("\nTestando a função sai:\n");
+    testa_sai();
 
     return 0;
 }

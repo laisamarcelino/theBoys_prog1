@@ -37,7 +37,7 @@ struct lef_t *cria_lef (){
 
 	return lef_t;
 }
-/* e esse ponteiro?*/
+
 struct lef_t *destroi_lef (struct lef_t *l){
     struct nodo_lef_t *aux;
 

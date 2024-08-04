@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <stdbool.h>
 #include "mundo.h"
 #include "conjunto.h"
 #include "lef.h"
@@ -12,7 +10,7 @@ int main() {
 
     /* Inicia as entidades e atributos do mundo */
     struct mundo mundo;
-    struct evento_t *evento;
+    struct evento_t *evento = NULL;
     int relogio;
 
     /* Inicializa a estrutura mundo com zeros para evitar problemas

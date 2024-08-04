@@ -75,7 +75,7 @@ int fila_tamanho (struct fila *fila){
 }
 
 int fila_vazia (struct fila *fila){
-    if (!fila->tamanho)
+    if (fila->ini == NULL)
 		return 1;
 	return 0;
 }

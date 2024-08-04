@@ -294,44 +294,49 @@ void missao (int t, struct mundo *mundo, int m){
     int menor_dis, i, dis, id_heroi, missao_possivel, base_escolhida;
     struct conjunto *uniao_hab_h, *equipe_escolhida;
     struct evento_t *missao;
-    struct missao *st_m;
+    struct missao st_m;
+    struct base b;
+    struct heroi h;
     
     /* Verifica se m está dentro do limite do vetor
     if (m < 0 || m >= N_MISSOES) {
         return;
     }*/
 
-    st_m = &mundo->missoes[m];
+    st_m = mundo->missoes[m];
 
     missao_possivel = 0;
     
-    printf("%6d: MISSAO %d TENT %d HAB REQ: ", t, st_m->tentativas, m);
-	imprime_cjt(st_m->habilidades);
+    printf("%6d: MISSAO %d TENT %d HAB REQ: ", t, st_m.tentativas, m);
+	imprime_cjt(st_m.habilidades);
 
     uniao_hab_h = cria_cjt(N_HABILIDADES);
 
     /* Calcula distancia de cada base ao local da missao m */
     /* A maior distancia possivel é entre o local da missao e o tam max do mundo */
-    menor_dis = distancia(st_m->local, mundo->tamanho_mundo);
+    menor_dis = distancia(st_m.local, mundo->tamanho_mundo);
     for (i = 0; i < N_BASES; i++){
-        dis = distancia(st_m->local, mundo->bases[i].local);
+        dis = distancia(st_m.local, mundo->bases[i].local);
         
+        b = mundo->bases[i];
+
         printf("%6d: MISSAO %d BASE %d DIST %d HEROIS ", t, m, i, dis);
-	    imprime_cjt(mundo->bases[i].presentes);
+	    imprime_cjt(b.presentes);
 
         /* Une conjuntos de habilidades dos herois na base analisada */
         inicia_iterador_cjt (mundo->bases[i].presentes); 
         while (incrementa_iterador_cjt (mundo->bases[i].presentes, &id_heroi)){
+            h = mundo->herois[id_heroi];
             uniao_hab_h = uniao_cjt(uniao_hab_h, mundo->herois[id_heroi].habilidades);
             printf("%6d: MISSAO %d HAB HEROI %2d: ", t, m, id_heroi);
-	        imprime_cjt(mundo->herois[id_heroi].habilidades);
+	        imprime_cjt(h.habilidades);
         }
 
         printf("%6d: MISSAO %d UNIAO HAB BASE %d: ", t, m, i);
 	    imprime_cjt(uniao_hab_h);
 
         /* Verifica condicoes de menor distancia e conjunto de habilidades */
-        if (dis < menor_dis && contido_cjt(st_m->habilidades, uniao_hab_h)){
+        if (dis < menor_dis && contido_cjt(st_m.habilidades, uniao_hab_h)){
             menor_dis = dis;
             equipe_escolhida = mundo->bases[i].presentes;
             missao_possivel = 1;
@@ -340,6 +345,9 @@ void missao (int t, struct mundo *mundo, int m){
     }
 
     if (missao_possivel){
+        if (vazio_cjt(equipe_escolhida))
+            return;
+
         inicia_iterador_cjt (equipe_escolhida); 
         while (incrementa_iterador_cjt (equipe_escolhida, &id_heroi)){
             mundo->herois[id_heroi].experiencia += 1;
@@ -350,9 +358,10 @@ void missao (int t, struct mundo *mundo, int m){
     else {
         missao = cria_evento(t+24*60, MISSAO, m, DADO_NULO);
         insere_lef(mundo->lef, missao);
-        st_m->tentativas += 1;
+        st_m.tentativas += 1;
         printf("%6d: MISSAO %d IMPOSSIVEL \n", t, m);
     }
+
     destroi_cjt(uniao_hab_h);
 };
 
@@ -404,3 +413,4 @@ void fim (struct mundo *mundo){
             min, max, media);
 
 };
+

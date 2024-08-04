@@ -9,8 +9,8 @@
 #include "lef.h"
 
 #define T_INICIO 0
-#define T_FIM_DO_MUNDO 5 /* em minutos -> 525600*/
-#define N_TAMANHO_MUNDO 5 /*20000*/
+#define T_FIM_DO_MUNDO 200 /* em minutos -> 525600*/
+#define N_TAMANHO_MUNDO 100 /*20000*/
 #define N_HABILIDADES 10
 #define N_HEROIS N_HABILIDADES * 5
 #define N_BASES N_HEROIS / 6
@@ -57,6 +57,7 @@ struct missao {
     int id_missao;
     struct conjunto *habilidades; 
     struct coordenadas local;
+    int tentativas;
 };
 
 /* Mundo é deﬁnido pelas entidades acima e algumas informações gerais */
@@ -70,6 +71,7 @@ struct mundo {
     int n_missoes;
     int n_habilidades;
     int relogio;
+    int n_missoes_cumpridas;
 };
 
 /* Retorna um número aleatorio entre max e min */
@@ -87,8 +89,11 @@ struct base cria_base(struct base b, int id);
 /* Inicializa cada missão */
 struct missao cria_missao(struct missao m, int id);
 
-/* Inicializa o mundo */
+/* Inicializa o mundo, inclusive os herois, bases e missoes */
 void cria_mundo (struct mundo *mundo, struct lef_t *l);
+
+/* Retorna o valor do relogio do mundo. Evita violar o TAD */
+int relogio_mundo (struct mundo *mundo);
 
 /* Representa um herói H chegando em uma base B no instante T. Ao chegar, 
 o herói analisa o tamanho da fila e decide se espera para entrar ou desiste */
@@ -116,9 +121,9 @@ void sai (int t, struct mundo *mundo, int h, int b, struct lef_t *l);
 void viaja (int t, struct mundo *mundo, int h, int d, struct lef_t *l);
 
 /* Dispara uma missão m no instante t */
-void missao (int t, struct mundo *mundo, struct missao m, struct lef_t *l);
+void missao (int t, struct mundo *mundo, int m, struct lef_t *l);
 
 /* Encerra a simulação */
-void fim (int t);
+void fim (struct mundo *mundo);
 
 #endif

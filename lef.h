@@ -94,4 +94,16 @@ int vazia_lef (struct lef_t *l);
  */
 void imprime_lef (struct lef_t *l);
 
+/* Retorna o tempo do evento. Evita violar o TAD */
+int tempo_evento (struct evento_t *e);
+
+/* Retorna o tipo do evento. Evita violar o TAD */
+int tipo_evento (struct evento_t *e);
+
+/* Retorna dado1 do evento. Evita violar o TAD */
+int dado1 (struct evento_t *e);
+
+/* Retorna dado2 do evento. Evita violar o TAD */
+int dado2 (struct evento_t *e);
+
 #endif

@@ -60,13 +60,12 @@ int main() {
             
             case VIAJA:
                 viaja(relogio, &mundo, dado1(evento), dado2(evento));
-                break;
+                break;      
             
-            /*
             case MISSAO:
                 missao(relogio, &mundo, dado1(evento));
                 break;
-
+    /*
             case FIM:
                 fim(&mundo);
                 break;

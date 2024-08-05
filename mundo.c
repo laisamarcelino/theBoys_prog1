@@ -137,7 +137,7 @@ struct lef_t *lef_mundo (struct mundo *mundo){
 void chega (int t, struct mundo *mundo, int h, int b){
     struct evento_t *evento;
     struct heroi *heroi;
-    struct base *base;
+    struct base base;
     struct fila *fila_espera;
     struct conjunto *cjt_presentes;
 
@@ -145,31 +145,38 @@ void chega (int t, struct mundo *mundo, int h, int b){
     heroi = &mundo->herois[h];
     heroi->id_base = b;
 
-    base = &mundo->bases[b];
-    fila_espera = base->espera;
-    cjt_presentes = base->presentes;
+    base = mundo->bases[b];
+    fila_espera = base.espera;
+    cjt_presentes = base.presentes;
 
     /* Verifica vagas na base e se a fila de espera está vazia */
-    if (cardinalidade_cjt(cjt_presentes) < 
-            base->lotacao && fila_vazia(fila_espera)) {
-            printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) ESPERA \n", 
-			    t, h, b, cardinalidade_cjt(cjt_presentes), base->lotacao);
-            return;
-    }
+    if (!vazio_cjt(cjt_presentes) && cardinalidade_cjt(cjt_presentes) < 
+            base.lotacao && fila_vazia(fila_espera)) {
 
-    /* Verifica paciencia do heroi */
-    if (heroi->paciencia > 10*fila_tamanho(fila_espera)){
         printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) ESPERA \n", 
-			t, h, b, cardinalidade_cjt(cjt_presentes), base->lotacao);
+			t, h, b, cardinalidade_cjt(cjt_presentes), base.lotacao);
+        evento = cria_evento(t, ESPERA, h, b);
+		insere_lef(mundo->lef, evento);            
+    
+        return;
+    }
+ 
+    /* Verifica paciencia do heroi */
+    if (cardinalidade_cjt(cjt_presentes) < 
+            base.lotacao && heroi->paciencia > 10*fila_tamanho(fila_espera)){
+        printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) ESPERA \n", 
+			t, h, b, cardinalidade_cjt(cjt_presentes), base.lotacao);
         evento = cria_evento(t, ESPERA, h, b);
         insere_lef(mundo->lef, evento);
     }
     else {
         printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) DESISTE \n", 
-			t, h, b, cardinalidade_cjt(cjt_presentes), base->lotacao);
+			t, h, b, cardinalidade_cjt(cjt_presentes), base.lotacao);
         evento = cria_evento(t, DESISTE, h, b);
         insere_lef(mundo->lef, evento);
     }
+
+    return;
 };
 
 void espera (int t, struct mundo *mundo, int h, int b){

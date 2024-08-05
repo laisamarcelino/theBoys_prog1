@@ -68,7 +68,7 @@ void cria_mundo (struct mundo *mundo){
     int id, base, i;
     struct evento_t *ev_inicial, *ev_missao, *ev_fim;
     struct lef_t *l;
-    struct conjunto *habilidades;
+    struct conjunto *cjt_hab;
 
     l = cria_lef();
     mundo->lef = l;
@@ -84,36 +84,28 @@ void cria_mundo (struct mundo *mundo){
 
         
     /* Cria um conjunto de habilidades */
-    habilidades = cria_cjt(N_HABILIDADES);
+    cjt_hab = cria_cjt(N_HABILIDADES);
 
     for(i = 0; i < N_HABILIDADES; i++){
-        insere_cjt(habilidades, i);
+        insere_cjt(cjt_hab, i);
     }
+    mundo->habilidades = cjt_hab;
 
     /* Cria um vetor de structs herois */
     for(id = 0; id < N_HEROIS; id++){
-        mundo->herois[id] = cria_heroi(id, habilidades);
+        mundo->herois[id] = cria_heroi(id, cjt_hab);
     }
 
     /* Cria um vetor de structs bases */
     for(id = 0; id < N_BASES; id++){
         mundo->bases[id] = cria_base(id);
-        printf("base: %d \n", mundo->bases[id].id_base);
-        printf("lotacao: %d \n", mundo->bases[id].lotacao);
-        printf("local: %d %d \n cjj: ", mundo->bases[id].local.x, mundo->bases[id].local.y);
-        imprime_cjt(mundo->bases[id].presentes);
-        printf("fila:");
-        imprime_fila(mundo->bases[id].espera);
-        printf("\n");
     }
-    /*imprime_base ();*/
 
-   
     /* Cria um vetor de structs missoes */
     for(id = 0; id < N_MISSOES; id++){
-        mundo->missoes[id] = cria_missao(id, habilidades);     
+        mundo->missoes[id] = cria_missao(id, cjt_hab);     
     }
-
+    
     /* Insere eventos para herois */
     for(id = 0; id < N_HEROIS; id++){
         base = aleat(0, N_BASES - 1);
@@ -131,7 +123,7 @@ void cria_mundo (struct mundo *mundo){
     ev_fim = cria_evento(T_FIM_DO_MUNDO, FIM, DADO_NULO, DADO_NULO);
     insere_lef(mundo->lef, ev_fim);
 
-    /*destroi_cjt(habilidades);*/
+    destroi_cjt(cjt_hab);
 };
 
 int relogio_mundo (struct mundo *mundo){
@@ -143,7 +135,6 @@ struct lef_t *lef_mundo (struct mundo *mundo){
 }
 
 void chega (int t, struct mundo *mundo, int h, int b){
-    bool decide_esperar = false;
     struct evento_t *evento;
     struct heroi *heroi;
     struct base *base;
@@ -161,15 +152,13 @@ void chega (int t, struct mundo *mundo, int h, int b){
     /* Verifica vagas na base e se a fila de espera está vazia */
     if (cardinalidade_cjt(cjt_presentes) < 
             base->lotacao && fila_vazia(fila_espera)) {
-        decide_esperar = true;
-    }
-    /* Verifica paciencia do heroi */
-    else {
-        decide_esperar = heroi->paciencia > 
-            (10*fila_tamanho(fila_espera)) ? true : false;
+            printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) ESPERA \n", 
+			    t, h, b, cardinalidade_cjt(cjt_presentes), base->lotacao);
+            return;
     }
 
-    if (decide_esperar){
+    /* Verifica paciencia do heroi */
+    if (heroi->paciencia > 10*fila_tamanho(fila_espera)){
         printf("%6d: CHEGA  HEROI %2d BASE %d (%2d/%2d) ESPERA \n", 
 			t, h, b, cardinalidade_cjt(cjt_presentes), base->lotacao);
         evento = cria_evento(t, ESPERA, h, b);
@@ -233,7 +222,6 @@ void avisa (int t, struct mundo *mundo, int b){
         /* Retira primeiro heroi da fila de b e insere em presentes */
         dequeue(base->espera, &h_retirado);
         insere_cjt(cjt_presentes, h_retirado);
-        cjt_presentes->card++;
 
         evento = cria_evento(t, ENTRA, h_retirado, b);
         insere_lef(mundo->lef, evento);
@@ -266,51 +254,48 @@ void sai (int t, struct mundo *mundo, int h, int b){
 
     base = &mundo->bases[b];
 
-    /* Retira h do conjunto de herois presentes em b*/
+   /* Retira h do conjunto de herois presentes em b*/
     retira_cjt(mundo->bases[b].presentes, h);
-    mundo->bases[b].presentes--;
-
-    d = aleat(0, N_BASES - 1);
+    
+    /* Escolhe base de destino aleatoria */    
+    d = aleat(0, N_BASES);
 
     viaja = cria_evento(t, VIAJA, h, d);
-    insere_lef(mundo->lef, viaja);
+    insere_lef(mundo->lef, viaja);  
     avisa = cria_evento(t, AVISA, DADO_NULO, b);
     insere_lef(mundo->lef, avisa);
 
-	printf("%6d: SAI    HEROI %2d BASE %d (%2d/%2d) \n", 
+	printf("%6d: SAI  HEROI %2d BASE %d (%2d/%2d) \n", 
 		t, h, b, cardinalidade_cjt(base->presentes), base->lotacao);
 };
 
 void viaja (int t, struct mundo *mundo, int h, int d){
     struct evento_t *evento;
-    struct coordenadas base_atual;
-    int dis, duracao, id_base_atual;
+    struct base origem, destino;
+    int id_origem, dis, duracao;
     
-    /* Calcula duração da viagem */
-    id_base_atual = mundo->herois[h].id_base;
-    base_atual = mundo->bases[id_base_atual].local;
-    dis = distancia(base_atual, mundo->bases[d].local);
+    id_origem = mundo->herois[h].id_base;
+    origem = mundo->bases[id_origem];
+    destino = mundo->bases[d];
+
+    dis = distancia(origem.local, destino.local);
+   
     duracao = dis / mundo->herois[h].velocidade;
 
     evento = cria_evento(t + duracao, CHEGA, h, d);
     insere_lef(mundo->lef, evento);
 
     printf("%6d: VIAJA  HEROI %2d BASE %d BASE %d DIST %d VEL %d CHEGA %d \n", 
-		t, h, id_base_atual, d, dis, mundo->herois[h].velocidade, t + duracao);
+		t, h, id_origem, d, dis, mundo->herois[h].velocidade, t + duracao);
 };
 
 void missao (int t, struct mundo *mundo, int m){
-    int menor_dis, i, dis, id_heroi, missao_possivel, base_escolhida;
+    int menor_dis, i, dis, id_heroi, missao_possivel, base_escolhida, j;
     struct conjunto *uniao_hab_h, *equipe_escolhida;
     struct evento_t *missao;
     struct missao st_m;
     struct base b;
     struct heroi h;
-    
-    /* Verifica se m está dentro do limite do vetor
-    if (m < 0 || m >= N_MISSOES) {
-        return;
-    }*/
 
     st_m = mundo->missoes[m];
 
@@ -319,15 +304,14 @@ void missao (int t, struct mundo *mundo, int m){
     printf("%6d: MISSAO %d TENT %d HAB REQ: ", t, st_m.tentativas, m);
 	imprime_cjt(st_m.habilidades);
 
-    uniao_hab_h = cria_cjt(N_HABILIDADES);
-
 
     /* Calcula distancia de cada base ao local da missao m */
     /* A maior distancia possivel é entre o local da missao e o tam max do mundo */
     menor_dis = distancia(st_m.local, mundo->tamanho_mundo);
     for (i = 0; i < N_BASES; i++){
         dis = distancia(st_m.local, mundo->bases[i].local);
-        
+        uniao_hab_h = cria_cjt(N_HABILIDADES+1);
+
         b = mundo->bases[i];
 
         printf("%6d: MISSAO %d BASE %d DIST %d HEROIS ", t, m, i, dis);
@@ -336,17 +320,21 @@ void missao (int t, struct mundo *mundo, int m){
             return;
         }
 	    imprime_cjt(b.presentes);
-       
+
+        j = 0;
 
         /* Une conjuntos de habilidades dos herois na base analisada */
         inicia_iterador_cjt (mundo->bases[i].presentes); 
-        while (incrementa_iterador_cjt (mundo->bases[i].presentes, &id_heroi)){
+        while (j < cardinalidade_cjt(mundo->bases[i].presentes) ){
+
+            incrementa_iterador_cjt(mundo->bases[i].presentes, &id_heroi);
             h = mundo->herois[id_heroi];
             uniao_hab_h = uniao_cjt(uniao_hab_h, mundo->herois[id_heroi].habilidades);
             printf("%6d: MISSAO %d HAB HEROI %2d: ", t, m, id_heroi);
 	        imprime_cjt(h.habilidades);
+            j++;
         }
-         fprintf (stderr, "passou\n");
+       
         printf("%6d: MISSAO %d UNIAO HAB BASE %d: ", t, m, i);
 	    imprime_cjt(uniao_hab_h);
 
@@ -357,6 +345,7 @@ void missao (int t, struct mundo *mundo, int m){
             missao_possivel = 1;
             base_escolhida = i;
         }
+        destroi_cjt(uniao_hab_h);
     }
 
     if (missao_possivel){

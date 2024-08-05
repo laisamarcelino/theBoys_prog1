@@ -12,6 +12,7 @@ int main() {
     struct mundo mundo;
     struct evento_t *evento = NULL;
     int relogio;
+    srand(0);
 
     /* Inicializa a estrutura mundo com zeros para evitar problemas
     com valores nao inicializados */
@@ -22,7 +23,7 @@ int main() {
 
     /* Relogio = 0 */
     relogio = relogio_mundo(&mundo);
-    
+
     /* Inicia a simulação até o fim do mundo */
     while (relogio != T_FIM_DO_MUNDO) {
         evento = retira_lef(lef_mundo(&mundo));
@@ -61,6 +62,7 @@ int main() {
                 viaja(relogio, &mundo, dado1(evento), dado2(evento));
                 break;
             
+            /*
             case MISSAO:
                 missao(relogio, &mundo, dado1(evento));
                 break;
@@ -68,6 +70,7 @@ int main() {
             case FIM:
                 fim(&mundo);
                 break;
+            */
         }
         destroi_evento(evento);
     }
@@ -76,4 +79,8 @@ int main() {
 
     return 0;
 }
+
+/* missao duas vezes
+    nn passa no desiste
+ */
 

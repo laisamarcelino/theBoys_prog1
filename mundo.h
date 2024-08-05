@@ -13,7 +13,7 @@
 #define N_TAMANHO_MUNDO 20000 
 #define N_HABILIDADES 10
 #define N_HEROIS N_HABILIDADES * 5
-#define N_BASES 3
+#define N_BASES N_HEROIS / 6
 #define N_MISSOES T_FIM_DO_MUNDO / 100
 #define DADO_NULO -1
 #define BASE_NULA -2
@@ -66,6 +66,7 @@ struct mundo {
     struct base bases[N_BASES]; 
     struct missao missoes[N_MISSOES]; 
     struct coordenadas tamanho_mundo; /* Dimensão max do mundo */
+    struct conjunto *habilidades;
     struct lef_t *lef;
     int n_herois; 
     int n_bases;

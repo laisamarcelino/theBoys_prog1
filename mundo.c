@@ -40,7 +40,7 @@ struct base cria_base (int id){
 
     max = aleat(3,10);
     f = fila_cria();
-    cjt = cria_cjt(max);
+    cjt = cria_cjt(max);                        
 
     b.id_base = id;
     b.lotacao = max;
@@ -98,7 +98,16 @@ void cria_mundo (struct mundo *mundo){
     /* Cria um vetor de structs bases */
     for(id = 0; id < N_BASES; id++){
         mundo->bases[id] = cria_base(id);
+        printf("base: %d \n", mundo->bases[id].id_base);
+        printf("lotacao: %d \n", mundo->bases[id].lotacao);
+        printf("local: %d %d \n cjj: ", mundo->bases[id].local.x, mundo->bases[id].local.y);
+        imprime_cjt(mundo->bases[id].presentes);
+        printf("fila:");
+        imprime_fila(mundo->bases[id].espera);
+        printf("\n");
     }
+    /*imprime_base ();*/
+
    
     /* Cria um vetor de structs missoes */
     for(id = 0; id < N_MISSOES; id++){
@@ -122,7 +131,7 @@ void cria_mundo (struct mundo *mundo){
     ev_fim = cria_evento(T_FIM_DO_MUNDO, FIM, DADO_NULO, DADO_NULO);
     insere_lef(mundo->lef, ev_fim);
 
-    destroi_cjt(habilidades);
+    /*destroi_cjt(habilidades);*/
 };
 
 int relogio_mundo (struct mundo *mundo){
@@ -312,6 +321,7 @@ void missao (int t, struct mundo *mundo, int m){
 
     uniao_hab_h = cria_cjt(N_HABILIDADES);
 
+
     /* Calcula distancia de cada base ao local da missao m */
     /* A maior distancia possivel é entre o local da missao e o tam max do mundo */
     menor_dis = distancia(st_m.local, mundo->tamanho_mundo);
@@ -321,7 +331,12 @@ void missao (int t, struct mundo *mundo, int m){
         b = mundo->bases[i];
 
         printf("%6d: MISSAO %d BASE %d DIST %d HEROIS ", t, m, i, dis);
+        if (b.presentes == NULL){
+            printf("ERRO\n");
+            return;
+        }
 	    imprime_cjt(b.presentes);
+       
 
         /* Une conjuntos de habilidades dos herois na base analisada */
         inicia_iterador_cjt (mundo->bases[i].presentes); 
@@ -331,7 +346,7 @@ void missao (int t, struct mundo *mundo, int m){
             printf("%6d: MISSAO %d HAB HEROI %2d: ", t, m, id_heroi);
 	        imprime_cjt(h.habilidades);
         }
-
+         fprintf (stderr, "passou\n");
         printf("%6d: MISSAO %d UNIAO HAB BASE %d: ", t, m, i);
 	    imprime_cjt(uniao_hab_h);
 
@@ -362,13 +377,15 @@ void missao (int t, struct mundo *mundo, int m){
         printf("%6d: MISSAO %d IMPOSSIVEL \n", t, m);
     }
 
-    destroi_cjt(uniao_hab_h);
+    /*destroi_cjt(uniao_hab_h);*/
 };
 
 void fim (struct mundo *mundo){
     int i, id, pac, vel, exp, min, max, soma;
     double porcentagem, media;
     struct fila *fila;
+
+    fprintf (stderr, "entrei no fim do mundo\n");
 
     min = max = 1;
     soma = 0;

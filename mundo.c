@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <stdbool.h>
 #include "conjunto.h"
 #include "mundo.h"
 #include "lef.h"
@@ -23,7 +22,7 @@ struct heroi cria_heroi (int id, struct conjunto *habilidades){
     struct heroi h;
 
     h.id_heroi = id; 
-    h.habilidades = cria_subcjt_cjt(habilidades, aleat(1,3)); 
+    h.habilidades = cria_subcjt_cjt(habilidades, aleat(1,3));
     h.paciencia = aleat(0, 100);
     h.velocidade = aleat(50, 5000);
     h.experiencia = 0;
@@ -58,7 +57,7 @@ struct missao cria_missao (int id, struct conjunto *habilidades){
     m.id_missao = id;
     m.local.x = aleat(0, N_TAMANHO_MUNDO-1);
     m.local.y = aleat(0, N_TAMANHO_MUNDO-1);
-    m.habilidades = cria_subcjt_cjt(habilidades, aleat(6,10)); 
+    m.habilidades = cria_subcjt_cjt(habilidades, aleat(6,10));
     m.tentativas = 0;
 
     return m;
@@ -81,7 +80,9 @@ void cria_mundo (struct mundo *mundo){
     mundo->n_habilidades = N_HABILIDADES;
     mundo->relogio = T_INICIO;
     mundo->n_missoes_cumpridas = 0;
-
+    mundo->min_tentativas = 0;
+    mundo->max_tentativas = 0;
+    mundo->total_tentativas = 0;
         
     /* Cria um conjunto de habilidades */
     cjt_hab = cria_cjt(N_HABILIDADES);
@@ -297,56 +298,49 @@ void viaja (int t, struct mundo *mundo, int h, int d){
 };
 
 void missao (int t, struct mundo *mundo, int m){
-    int menor_dis, i, dis, id_heroi, missao_possivel, base_escolhida, j;
+    int menor_dis, i, dis, id_h, missao_possivel, base_escolhida;
     struct conjunto *uniao_hab_h, *equipe_escolhida;
     struct evento_t *missao;
-    struct missao st_m;
+    struct missao *st_m;
     struct base b;
     struct heroi h;
 
-    st_m = mundo->missoes[m];
+    st_m = &mundo->missoes[m];
 
+    mundo->min_tentativas = 1;
+    mundo->total_tentativas++;
     missao_possivel = 0;
     
-    printf("%6d: MISSAO %d TENT %d HAB REQ: ", t, st_m.tentativas, m);
-	imprime_cjt(st_m.habilidades);
-
+    printf("%6d: MISSAO %d TENT %d HAB REQ: ", t, m, st_m->tentativas);
+	imprime_cjt(st_m->habilidades);
 
     /* Calcula distancia de cada base ao local da missao m */
     /* A maior distancia possivel é entre o local da missao e o tam max do mundo */
-    menor_dis = distancia(st_m.local, mundo->tamanho_mundo);
+    menor_dis = distancia(st_m->local, mundo->tamanho_mundo);
     for (i = 0; i < N_BASES; i++){
-        dis = distancia(st_m.local, mundo->bases[i].local);
+        dis = distancia(st_m->local, mundo->bases[i].local);
         uniao_hab_h = cria_cjt(N_HABILIDADES+1);
 
         b = mundo->bases[i];
 
         printf("%6d: MISSAO %d BASE %d DIST %d HEROIS ", t, m, i, dis);
-        if (b.presentes == NULL){
-            printf("ERRO\n");
-            return;
-        }
+     
 	    imprime_cjt(b.presentes);
-
-        j = 0;
 
         /* Une conjuntos de habilidades dos herois na base analisada */
         inicia_iterador_cjt (mundo->bases[i].presentes); 
-        while (j < cardinalidade_cjt(mundo->bases[i].presentes) ){
-
-            incrementa_iterador_cjt(mundo->bases[i].presentes, &id_heroi);
-            h = mundo->herois[id_heroi];
-            uniao_hab_h = uniao_cjt(uniao_hab_h, mundo->herois[id_heroi].habilidades);
-            printf("%6d: MISSAO %d HAB HEROI %2d: ", t, m, id_heroi);
+        while (incrementa_iterador_cjt(mundo->bases[i].presentes, &id_h)) {
+            h = mundo->herois[id_h];
+            uniao_hab_h = uniao_cjt(uniao_hab_h, mundo->herois[id_h].habilidades);
+            printf("%6d: MISSAO %d HAB HEROI %2d: ", t, m, id_h);
 	        imprime_cjt(h.habilidades);
-            j++;
         }
        
         printf("%6d: MISSAO %d UNIAO HAB BASE %d: ", t, m, i);
 	    imprime_cjt(uniao_hab_h);
 
         /* Verifica condicoes de menor distancia e conjunto de habilidades */
-        if (dis < menor_dis && contido_cjt(st_m.habilidades, uniao_hab_h)){
+        if (dis < menor_dis && contido_cjt(st_m->habilidades, uniao_hab_h)){
             menor_dis = dis;
             equipe_escolhida = mundo->bases[i].presentes;
             missao_possivel = 1;
@@ -360,31 +354,29 @@ void missao (int t, struct mundo *mundo, int m){
             return;
 
         inicia_iterador_cjt (equipe_escolhida); 
-        while (incrementa_iterador_cjt (equipe_escolhida, &id_heroi)){
-            mundo->herois[id_heroi].experiencia += 1;
+        while (incrementa_iterador_cjt (equipe_escolhida, &id_h)){
+            mundo->herois[id_h].experiencia += 1;
         }
         mundo->n_missoes_cumpridas += 1;
         printf("%6d: MISSAO %d CUMPRIDA BASE %d \n", t, m, base_escolhida);
     }
+
     else {
         missao = cria_evento(t+24*60, MISSAO, m, DADO_NULO);
         insere_lef(mundo->lef, missao);
-        st_m.tentativas += 1;
+        st_m->tentativas++;
         printf("%6d: MISSAO %d IMPOSSIVEL \n", t, m);
-    }
 
-    /*destroi_cjt(uniao_hab_h);*/
+        if (st_m->tentativas > mundo->max_tentativas){
+            mundo->max_tentativas = st_m->tentativas;
+        }
+    }
 };
 
 void fim (struct mundo *mundo){
-    int i, id, pac, vel, exp, min, max, soma;
-    double porcentagem, media;
+    int i, id, pac, vel, exp;
+    float porcentagem, media;
     struct fila *fila;
-
-    fprintf (stderr, "entrei no fim do mundo\n");
-
-    min = max = 1;
-    soma = 0;
 
     printf("%6d: FIM \n", T_FIM_DO_MUNDO);
 
@@ -404,26 +396,17 @@ void fim (struct mundo *mundo){
         fila_destroi(&fila);
     }
 
-    for (i = 0; i < N_MISSOES; i++){
-        destroi_cjt(mundo->missoes[i].habilidades);
-
-        if (mundo->missoes[i].tentativas < min){
-            min = mundo->missoes[i].tentativas;
-        }
-        else {
-            max = mundo->missoes[i].tentativas;
-        }
-
-        soma += mundo->missoes[i].tentativas;
-    }
-
-    porcentagem = (mundo->n_missoes_cumpridas * 100) / N_MISSOES;
-    media = (double)soma / N_MISSOES;
+    porcentagem = (float)((mundo->n_missoes_cumpridas * 100) / mundo->n_missoes);
+    media = (mundo->total_tentativas) / mundo->n_missoes;
 
     printf("MISSOES CUMPRIDAS: %d/%d (%.2f%%)\n", 
             mundo->n_missoes_cumpridas, N_MISSOES, porcentagem);
     printf("TENTATIVAS/MISSAO: MIN %d, MAX %d, MEDIA %.2f\n", 
-            min, max, media);
+            mundo->min_tentativas, mundo->max_tentativas, media);
 
+    for (i = 0; i < N_MISSOES; i++){
+        destroi_cjt(mundo->missoes[i].habilidades);
+    }
+    destroi_cjt(mundo->habilidades);
 };
 

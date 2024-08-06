@@ -74,6 +74,9 @@ struct mundo {
     int n_habilidades;
     int relogio;
     int n_missoes_cumpridas;
+    int min_tentativas;
+    int max_tentativas;
+    int total_tentativas;
 };
 
 /* Retorna um número aleatorio entre max e min */

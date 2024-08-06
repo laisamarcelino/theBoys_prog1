@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "mundo.h"
 #include "conjunto.h"
 #include "lef.h"
 #include "fila.h"
-#include <string.h>
 
 int main() {
 
@@ -21,7 +22,6 @@ int main() {
     /* Cria eventos iniciais */
     cria_mundo(&mundo);
 
-    /* Relogio = 0 */
     relogio = relogio_mundo(&mundo);
 
     /* Inicia a simulação até o fim do mundo */
@@ -31,45 +31,45 @@ int main() {
             break;
         }
 
-        relogio = tempo_evento(evento);
+        relogio = evento->tempo;
 
-        switch (tipo_evento(evento)) {
+        switch (evento->tipo) {
             case CHEGA:
-                chega(relogio, &mundo, dado1(evento), dado2(evento));
+                chega(relogio, &mundo, evento->dado1, evento->dado2);
                 break;
             
             case ESPERA:
-                espera(relogio, &mundo, dado1(evento), dado2(evento));
+                espera(relogio, &mundo, evento->dado1, evento->dado2);
                 break;
             
             case DESISTE:
-                desiste(relogio, &mundo, dado1(evento), dado2(evento));
+                desiste(relogio, &mundo, evento->dado1, evento->dado2);
                 break;
             
             case AVISA:
-                avisa(relogio, &mundo, dado2(evento));
+                avisa(relogio, &mundo, evento->dado2);
                 break;
             
             case ENTRA:
-                entra(relogio, &mundo, dado1(evento), dado2(evento));
+                entra(relogio, &mundo, evento->dado1, evento->dado2);
                 break;
             
             case SAI:
-                sai(relogio, &mundo, dado1(evento), dado2(evento));
+                sai(relogio, &mundo, evento->dado1, evento->dado2);
                 break;
             
             case VIAJA:
-                viaja(relogio, &mundo, dado1(evento), dado2(evento));
+                viaja(relogio, &mundo, evento->dado1, evento->dado2);
                 break;      
             
             case MISSAO:
-                missao(relogio, &mundo, dado1(evento));
+                missao(relogio, &mundo, evento->dado1);
                 break;
-    /*
+            
             case FIM:
                 fim(&mundo);
                 break;
-            */
+            
         }
         destroi_evento(evento);
     }
@@ -78,8 +78,3 @@ int main() {
 
     return 0;
 }
-
-/* missao duas vezes
-    nn passa no desiste
- */
-

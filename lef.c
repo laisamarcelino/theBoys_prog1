@@ -132,19 +132,3 @@ void imprime_lef (struct lef_t *l){
     
     printf ("  Total %d eventos\n", cont);
 }
-
-int tempo_evento (struct evento_t *e){
-    return e->tempo;
-}
-
-int tipo_evento (struct evento_t *e){
-    return e->tipo;
-}
-
-int dado1 (struct evento_t *e){
-    return e->dado1;
-}
-
-int dado2 (struct evento_t *e){
-    return e->dado2;
-}

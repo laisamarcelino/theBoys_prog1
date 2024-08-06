@@ -1,0 +1,398 @@
+==8306== Memcheck, a memory error detector
+==8306== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==8306== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==8306== Command: ./theboys
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x487E82C: sqrt (w_sqrt_compat.c:35)
+==8306==    by 0x10A85F: distancia (mundo.c:18)
+==8306==    by 0x10B5A2: viaja (mundo.c:298)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B5FF: viaja (mundo.c:303)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A398: insere_lef (lef.c:83)
+==8306==    by 0x10B5FF: viaja (mundo.c:303)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B647: viaja (mundo.c:305)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B647: viaja (mundo.c:305)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B647: viaja (mundo.c:305)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B647: viaja (mundo.c:305)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B647: viaja (mundo.c:305)
+==8306==    by 0x1093E3: main (theboys.c:62)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A398: insere_lef (lef.c:83)
+==8306==    by 0x10B3A6: entra (mundo.c:261)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B04F: chega (mundo.c:182)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B173: desiste (mundo.c:207)
+==8306==    by 0x109339: main (theboys.c:46)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10AEB1: chega (mundo.c:157)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10AF4C: chega (mundo.c:169)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B019: chega (mundo.c:179)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B019: chega (mundo.c:179)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B019: chega (mundo.c:179)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B019: chega (mundo.c:179)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B019: chega (mundo.c:179)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x109432: main (theboys.c:28)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B192: desiste (mundo.c:209)
+==8306==    by 0x109339: main (theboys.c:46)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B192: desiste (mundo.c:209)
+==8306==    by 0x109339: main (theboys.c:46)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B192: desiste (mundo.c:209)
+==8306==    by 0x109339: main (theboys.c:46)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B192: desiste (mundo.c:209)
+==8306==    by 0x109339: main (theboys.c:46)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B192: desiste (mundo.c:209)
+==8306==    by 0x109339: main (theboys.c:46)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10AEFF: chega (mundo.c:160)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10AEFF: chega (mundo.c:160)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10AEFF: chega (mundo.c:160)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10AEFF: chega (mundo.c:160)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10AEFF: chega (mundo.c:160)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10AF35: chega (mundo.c:163)
+==8306==    by 0x1092DF: main (theboys.c:38)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B0CC: espera (mundo.c:193)
+==8306==    by 0x10930C: main (theboys.c:42)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B112: espera (mundo.c:195)
+==8306==    by 0x10930C: main (theboys.c:42)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B112: espera (mundo.c:195)
+==8306==    by 0x10930C: main (theboys.c:42)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B112: espera (mundo.c:195)
+==8306==    by 0x10930C: main (theboys.c:42)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B112: espera (mundo.c:195)
+==8306==    by 0x10930C: main (theboys.c:42)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B112: espera (mundo.c:195)
+==8306==    by 0x10930C: main (theboys.c:42)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B236: avisa (mundo.c:231)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B236: avisa (mundo.c:231)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B236: avisa (mundo.c:231)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B236: avisa (mundo.c:231)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B236: avisa (mundo.c:231)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B29F: avisa (mundo.c:244)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B2BE: avisa (mundo.c:246)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B2BE: avisa (mundo.c:246)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B2BE: avisa (mundo.c:246)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B2BE: avisa (mundo.c:246)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B2BE: avisa (mundo.c:246)
+==8306==    by 0x10935F: main (theboys.c:50)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B3A6: entra (mundo.c:261)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B3F3: entra (mundo.c:263)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B3F3: entra (mundo.c:263)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B3F3: entra (mundo.c:263)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B3F3: entra (mundo.c:263)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B3F3: entra (mundo.c:263)
+==8306==    by 0x10938C: main (theboys.c:54)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B4A3: sai (mundo.c:281)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10B4DA: sai (mundo.c:283)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CAAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B518: sai (mundo.c:285)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Use of uninitialised value of size 8
+==8306==    at 0x49AE2EB: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B518: sai (mundo.c:285)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49AE2FC: _itoa_word (_itoa.c:177)
+==8306==    by 0x49C9ABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B518: sai (mundo.c:285)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49CA5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B518: sai (mundo.c:285)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x49C9C05: __vfprintf_internal (vfprintf-internal.c:1516)
+==8306==    by 0x49B479E: printf (printf.c:33)
+==8306==    by 0x10B518: sai (mundo.c:285)
+==8306==    by 0x1093B9: main (theboys.c:58)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A398: insere_lef (lef.c:83)
+==8306==    by 0x10BA9F: missao (mundo.c:375)
+==8306==    by 0x109406: main (theboys.c:66)
+==8306== 
+==8306== Conditional jump or move depends on uninitialised value(s)
+==8306==    at 0x10A305: insere_lef (lef.c:68)
+==8306==    by 0x10BA9F: missao (mundo.c:375)
+==8306==    by 0x109406: main (theboys.c:66)
+==8306== 
+==8306== 
+==8306== More than 10000000 total errors detected.  I'm not reporting any more.
+==8306== Final error counts will be inaccurate.  Go fix your program!
+==8306== Rerun with --error-limit=no to disable this cutoff.  Note
+==8306== that errors may occur in your program without prior warning from
+==8306== Valgrind, because errors are no longer being displayed.
+==8306== 
+==8306== 
+==8306== HEAP SUMMARY:
+==8306==     in use at exit: 432,784,280 bytes in 4,532,720 blocks
+==8306==   total heap usage: 18,635,724 allocs, 14,103,004 frees, 763,248,316 bytes allocated
+==8306== 
+==8306== LEAK SUMMARY:
+==8306==    definitely lost: 54,392,640 bytes in 2,266,360 blocks
+==8306==    indirectly lost: 378,391,592 bytes in 2,266,359 blocks
+==8306==      possibly lost: 48 bytes in 1 blocks
+==8306==    still reachable: 0 bytes in 0 blocks
+==8306==         suppressed: 0 bytes in 0 blocks
+==8306== Rerun with --leak-check=full to see details of leaked memory
+==8306== 
+==8306== Use --track-origins=yes to see where uninitialised values come from
+==8306== For lists of detected and suppressed errors, rerun with: -s
+==8306== ERROR SUMMARY: 10000000 errors from 62 contexts (suppressed: 0 from 0)

@@ -35,35 +35,35 @@ int main() {
 
         switch (evento->tipo) {
             case CHEGA:
-                chega(relogio, &mundo, evento->dado1, evento->dado2);
+                chega(&mundo, relogio, evento->dado1, evento->dado2);
                 break;
             
             case ESPERA:
-                espera(relogio, &mundo, evento->dado1, evento->dado2);
+                espera(&mundo, relogio, evento->dado1, evento->dado2);
                 break;
             
             case DESISTE:
-                desiste(relogio, &mundo, evento->dado1, evento->dado2);
+                desiste(&mundo, relogio, evento->dado1, evento->dado2);
                 break;
             
             case AVISA:
-                avisa(relogio, &mundo, evento->dado2);
+                avisa(&mundo, relogio, evento->dado2);
                 break;
             
             case ENTRA:
-                entra(relogio, &mundo, evento->dado1, evento->dado2);
+                entra(&mundo, relogio, evento->dado1, evento->dado2);
                 break;
             
             case SAI:
-                sai(relogio, &mundo, evento->dado1, evento->dado2);
+                sai(&mundo, relogio, evento->dado1, evento->dado2);
                 break;
             
             case VIAJA:
-                viaja(relogio, &mundo, evento->dado1, evento->dado2);
+                viaja(&mundo, relogio, evento->dado1, evento->dado2);
                 break;      
             
             case MISSAO:
-                missao(relogio, &mundo, evento->dado1);
+                missao(&mundo, relogio, evento->dado1);
                 break;
             
             case FIM:

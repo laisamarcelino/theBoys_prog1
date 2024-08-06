@@ -105,31 +105,31 @@ struct lef_t *lef_mundo (struct mundo *mundo);
 
 /* Representa um herói H chegando em uma base B no instante T. Ao chegar, 
 o herói analisa o tamanho da fila e decide se espera para entrar ou desiste */
-void chega (int t, struct mundo *mundo, int h, int b);
+void chega (struct mundo *mundo, int t, int h, int b);
 
 /* O herói H entra na fila de espera da base B. Assim que H entrar na fila, 
 o porteiro da base B deve ser avisado para verificar a fila */
-void espera (int t, struct mundo *mundo, int h, int b);
+void espera (struct mundo *mundo, int t, int h, int b);
 
 /* O herói H desiste de entrar na base B, escolhe uma base aleatória D e viaja*/
-void desiste (int t, struct mundo *mundo, int h, int b);
+void desiste (struct mundo *mundo, int t, int h, int b);
 
 /* O porteiro da base B trata a fila de espera */
-void avisa (int t, struct mundo *mundo, int b);
+void avisa (struct mundo *mundo, int t, int b);
 
 /* O herói H entra na base B. Ao entrar, o herói decide 
 quanto tempo vai ficar e agenda sua saída da base */
-void entra (int t, struct mundo *mundo, int h, int b);
+void entra (struct mundo *mundo, int t, int h, int b);
 
 /* herói H sai da base B. Ao sair, escolhe uma base de destino para viajar; 
 o porteiro de B é avisado, pois uma vaga foi liberada: */
-void sai (int t, struct mundo *mundo, int h, int b);
+void sai (struct mundo *mundo, int t, int h, int b);
 
 /* O herói H se desloca para uma base D */
-void viaja (int t, struct mundo *mundo, int h, int d);
+void viaja (struct mundo *mundo, int t, int h, int d);
 
 /* Dispara uma missão m no instante t */
-void missao (int t, struct mundo *mundo, int m);
+void missao (struct mundo *mundo, int t, int m);
 
 /* Encerra a simulação */
 void fim (struct mundo *mundo);

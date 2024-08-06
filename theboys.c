@@ -74,7 +74,7 @@ int main() {
         destroi_evento(evento);
     }
 
-    destroi_lef(lef_mundo(&mundo));
+    destroi_lef(mundo.lef);
 
     return 0;
 }

@@ -295,7 +295,7 @@ void viaja (struct mundo *mundo, int t, int h, int d){
 
 void missao (struct mundo *mundo, int t, int m){
     int menor_dis, i, dis, id_h, missao_possivel, base_escolhida;
-    struct conjunto *uniao_hab_h, *equipe_escolhida;
+    struct conjunto *uniao_hab_h, *equipe_escolhida, *temporario;
     struct evento_t *missao;
     struct missao st_m;
     struct base b;
@@ -327,7 +327,9 @@ void missao (struct mundo *mundo, int t, int m){
         inicia_iterador_cjt (mundo->bases[i].presentes); 
         while (incrementa_iterador_cjt(mundo->bases[i].presentes, &id_h)) {
             h = mundo->herois[id_h];
+            temporario = uniao_hab_h;
             uniao_hab_h = uniao_cjt(uniao_hab_h, mundo->herois[id_h].habilidades);
+            destroi_cjt(temporario);
             printf("%6d: MISSAO %d HAB HEROI %2d: ", t, m, id_h);
 	        imprime_cjt(h.habilidades);
         }
